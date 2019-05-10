@@ -135,6 +135,7 @@ uint8_t MeHostParser::pushStr(uint8_t * str, uint32_t length)
             pushByte(str[i]);
         }
     }
+    return length;
 }
 
 /**

@@ -714,8 +714,10 @@ int16_t MeUSBHost::probeDevice()
     Serial.println(c,HEX);
 #endif
   }
-  if( initHIDDevice()==1)
+  if( initHIDDevice()==1) {
     device_online=true;
+  }
+  return c;
 }
 
 

@@ -464,7 +464,8 @@ double MeGyro::getAngle(uint8_t index) const
   {
     return getAngleZ();
   }
-} 
+  return 0;
+}
 
 /**
  * \par Function
