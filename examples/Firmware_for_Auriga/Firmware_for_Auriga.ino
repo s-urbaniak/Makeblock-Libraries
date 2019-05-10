@@ -131,7 +131,7 @@ int16_t LineFollowFlag=0;
 
 uint8_t command_index = 0;
 uint8_t auriga_mode = BLUETOOTH_MODE;
-uint8_t index = 0;
+uint8_t serial_index = 0;
 uint8_t dataLen;
 uint8_t modulesLen=0;
 uint8_t irRead = 0;
@@ -2240,7 +2240,7 @@ void PID_angle_compute(void)   //PID
 {
   CompAngleX = -gyro.getAngleX();
   double error = CompAngleX - PID_angle.Setpoint;
-  PID_angle.Integral += error;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+  PID_angle.Integral += error;
   if(abs(CompAngleX - PID_angle.Setpoint) < 1)
   {
     PID_angle.Integral = 0;
@@ -2470,14 +2470,16 @@ void parseGcode(char * cmd)
       auriga_mode  = atof(str+1);
     }
   }
-//#ifdef DEBUG_INFO
+
+#ifdef DEBUG_INFO
   Serial.print("PID: ");
   Serial.print(p_value);
   Serial.print(", ");
   Serial.print(i_value);
   Serial.print(",  ");
   Serial.println(d_value);
-//#endif
+#endif
+
   if(g_code_cmd == '1')
   {
     PID_angle.P = p_value;
@@ -2825,7 +2827,7 @@ boolean read_serial(void)
     {
       if(prevc == 0xff)
       {
-        index=1;
+        serial_index=1;
         isStart = true;
       }
     }
@@ -2834,31 +2836,32 @@ boolean read_serial(void)
       prevc = c;
       if(isStart)
       {
-        if(index == 2)
+        if(serial_index == 2)
         {
           dataLen = c; 
         }
-        else if(index > 2)
+        else if(serial_index > 2)
         {
           dataLen--;
         }
-        writeBuffer(index,c);
+        writeBuffer(serial_index,c);
       }
     }
-    index++;
-    if(index > 51)
+    serial_index++;
+    if(serial_index > 51)
     {
-      index=0; 
+      serial_index=0; 
       isStart=false;
     }
-    if(isStart && (dataLen == 0) && (index > 3))
+    if(isStart && (dataLen == 0) && (serial_index > 3))
     { 
       isStart = false;
       parseData(); 
-      index=0;
+      serial_index=0;
     }
     return result;
   }
+  return result;
 }
 
 /**
@@ -3022,6 +3025,7 @@ void setup()
   buzzer.noTone();
   Serial.print("Version: ");
   Serial.println(mVersion);
+
 //  lasttime_receive_cmd =  millis();
 //  while(millis() - lasttime_receive_cmd < 300)
 //  {
@@ -3050,10 +3054,10 @@ void setup()
   encoders[0].begin();
   encoders[1].begin();
   wdt_reset();
-//  if(boot_show_flag == true)
-//  {
-//    init_form_power();
-//  }
+  //  if(boot_show_flag == true)
+  //  {
+  //    init_form_power();
+  //  }
   wdt_reset();
   encoders[0].runSpeed(0);
   encoders[1].runSpeed(0);
@@ -3138,6 +3142,7 @@ void loop()
       pm25sensor->rxloop();
     }
   }
+
 //  while(Serial.available() > 0)
 //  {
 //    char c = Serial.read();
@@ -3159,7 +3164,7 @@ void loop()
     {
       if(prevc == 0xff)
       {
-        index=1;
+        serial_index=1;
         isStart = true;
       }
     }
@@ -3168,28 +3173,28 @@ void loop()
       prevc = c;
       if(isStart)
       {
-        if(index == 2)
+        if(serial_index == 2)
         {
           dataLen = c; 
         }
-        else if(index > 2)
+        else if(serial_index > 2)
         {
           dataLen--;
         }
-        writeBuffer(index,c);
+        writeBuffer(serial_index,c);
       }
     }
-    index++;
-    if(index > 51)
+    serial_index++;
+    if(serial_index > 51)
     {
-      index=0; 
+      serial_index=0; 
       isStart=false;
     }
-    if(isStart && (dataLen == 0) && (index > 3))
+    if(isStart && (dataLen == 0) && (serial_index > 3))
     { 
       isStart = false;
       parseData(); 
-      index=0;
+      serial_index=0;
     }
     readSerial();
   }
@@ -3228,4 +3233,3 @@ void loop()
     line_model();
   }
 }
-
