@@ -172,7 +172,7 @@ boolean move_flag = false;
 boolean boot_show_flag = true;
 boolean blink_flag = false;
 
-String mVersion = "09.01.016";
+String mVersion = "09.01.017";
 
 //////////////////////////////////////////////////////////////////////////////////////
 float RELAX_ANGLE = -1;                    //Natural balance angle,should be adjustment according to your own car
