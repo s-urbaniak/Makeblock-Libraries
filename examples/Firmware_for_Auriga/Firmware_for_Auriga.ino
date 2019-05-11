@@ -2900,7 +2900,6 @@ void init_form_power(void)
     wdt_reset();
   }
 
-  buzzer.tone(988, 125);   //NOTE_B5
   led.setColor(0,20,0,0);
   led.show();
   delay(200);
@@ -2933,28 +2932,24 @@ void init_form_power(void)
   wdt_reset();
 
   led.setColor(0,0,0,0);
-  buzzer.tone(1976, 125);  //NOTE_B6
   led.setColor(12,20,10,20);
   led.setColor(1,20,10,20);
   led.setColor(2,20,10,20);
   led.show();
   delay(375);
   wdt_reset();
-  buzzer.tone(1976, 125);  //NOTE_B6
   led.setColor(3,20,20,0);
   led.setColor(4,20,20,0);
   led.setColor(5,20,20,0);
   led.show();
   delay(375);
   wdt_reset();
-  buzzer.tone(1976, 125);  //NOTE_B69
   led.setColor(6,0,10,20);
   led.setColor(7,0,10,20);
   led.setColor(8,0,10,20);
   led.show();
   delay(500);
   wdt_reset();
-  buzzer.tone(1976, 125);  //NOTE_B69
   led.setColor(9,10,0,0);
   led.setColor(10,10,0,0);
   led.setColor(11,10,0,0);
@@ -2982,18 +2977,16 @@ void init_form_power(void)
     led.setColor(11,10,0,0);
     led.show();
     delay(2);
-    buzzer.tone(2349, 250);  //NOTE_D7
     led.setColor(0,0,0,0);
     led.show();
     delay(100);
     wdt_reset();
   }
 
-  buzzer.tone(262, 250);   //NOTE_D5
-  buzzer.tone(294, 250);   //NOTE_E5
-  buzzer.tone(330, 250);   //NOTE_C5
+  buzzer.tone(330, 100);   //NOTE_C5
   led.setColor(0,0,0,0);
   led.show();
+  wdt_reset();
 }
 
 /**
@@ -3021,7 +3014,7 @@ void setup()
   buzzer.setpin(BUZZER_PORT);
   led.setColor(0,0,0,0);
   led.show();
-  buzzer.tone(1000,100); 
+  buzzer.tone(330,100);
   buzzer.noTone();
   Serial.print("Version: ");
   Serial.println(mVersion);
@@ -3054,11 +3047,11 @@ void setup()
   encoders[0].begin();
   encoders[1].begin();
   wdt_reset();
-  //  if(boot_show_flag == true)
-  //  {
-  //    init_form_power();
-  //  }
-  wdt_reset();
+
+  if(boot_show_flag == true) {
+    init_form_power();
+  }
+
   encoders[0].runSpeed(0);
   encoders[1].runSpeed(0);
 
