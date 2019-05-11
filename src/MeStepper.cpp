@@ -409,6 +409,8 @@ boolean MeStepper::run()
 	computeNewSpeed();
     return true;
   }
+
+  return false;
 }
 
 /**
