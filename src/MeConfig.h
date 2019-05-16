@@ -94,10 +94,10 @@
 #define MeConfig_H
 
 #include <utility/Servo.h>
-#include <utility/Wire.h>
-#include <utility/EEPROM.h>
-#include <utility/SoftwareSerial.h>
-#include <utility/SPI.h>
+#include <Wire.h>
+#include <EEPROM.h>
+#include <SoftwareSerial.h>
+#include <SPI.h>
 
 #define ME_PORT_DEFINED
 
